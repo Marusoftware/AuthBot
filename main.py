@@ -1,8 +1,8 @@
 from discord.ext import commands
-from discord.ui import Button, Select, View
-from auth_user import User
-import logging, argparse, discord, os, socketserver, threading, asyncio
-from discord import ButtonStyle, SelectOption
+#from discord.ui import Button, Select, View
+from user import User
+import logging, argparse, discord, os, asyncio
+#from discord import ButtonStyle, SelectOption
 from discord_slash import SlashCommand
 from discord_slash.utils.manage_commands import create_option
 from discord_slash.model import SlashCommandOptionType
@@ -69,8 +69,8 @@ async def SServer(reader, writer):
         print("can't read")
 
 #run
-token_txt_path="token_auth.txt"
+token_txt_path="token"
 if os.path.exists(token_txt_path):
     bot.run(open(token_txt_path, "r").readline())
 else:
-    logger.critical("can't find bot token.", os.path.abspath("token.txt"))
+    logger.critical("can't find bot token.", os.path.abspath(token_txt_path))
