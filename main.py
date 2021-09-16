@@ -10,6 +10,7 @@ from discord_slash.model import SlashCommandOptionType
 #parse argv
 argparser = argparse.ArgumentParser("AuthBot", description="Authentication Bot")
 argparser.add_argument("-log_level", action="store", type=int, dest="log_level", default=20 ,help="set Log level.(0-50)")
+argparser.add_argument("-token", action="store", type=str, dest="token", required=True ,help="discord bot token")
 ##argparser.add_argument("--daemon", dest="daemon", help="Start in daemon mode.", action="store_true")
 argv=argparser.parse_args()
 #setting logging
@@ -81,8 +82,4 @@ async def SServer(reader, writer):
         print("can't read")
 
 #run
-token_txt_path=""
-if os.path.exists(token_txt_path):
-    bot.run(open(token_txt_path, "r").readline())
-else:
-    logger.critical("can't find bot token. "+os.path.abspath(token_txt_path))
+bot.run(argv.token)
