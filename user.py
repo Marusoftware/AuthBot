@@ -2,7 +2,7 @@ import pickle, os, random, string
 
 class User():
     def __init__(self):
-        self.data_dir="./auth/"
+        self.data_dir="/mnt/hdd_linuxfs_ext4/WEB/DATA/auth/"
     def _randomstr(self, n):
         return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
     def mkauth(self, guild_id, member_id):

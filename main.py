@@ -46,6 +46,14 @@ async def verify(ctx):
 @slash_client.slash(name="set_authd_role", description="Set the role that add when verify was sucess.", options=[
     create_option(name="role", description="The role", option_type=SlashCommandOptionType.ROLE, required=True)])
 async def set_authd_role(ctx, role):
+    try:
+        member=ctx.guild.get_member(880613350650830909)
+        await member.add_roles(role, reason="Permition test")
+    except discord.errors.Forbidden:
+        await ctx.send("Can't set role. Please check permition of this bot.")
+        return
+    else:
+        await member.remove_roles(role, reason="Permition test")
     user.setrole(ctx.guild.id, role.id)
     await ctx.send("Role was successfully seted.")
 
@@ -61,7 +69,11 @@ async def SServer(reader, writer):
         member=guild.get_member(auth["mid"])
         role=guild.get_role(auth["rid"])
         print("add")
-        await member.add_roles(role)
+        try:
+            await member.add_roles(role, reason="Captcha was sucessful.")
+        except discord.errors.Forbidden:
+            writer.write(b'PermERR')
+            return
         writer.write(b'OK')
         await writer.drain()
         print("send")
@@ -69,8 +81,8 @@ async def SServer(reader, writer):
         print("can't read")
 
 #run
-token_txt_path="token"
+token_txt_path=""
 if os.path.exists(token_txt_path):
     bot.run(open(token_txt_path, "r").readline())
 else:
-    logger.critical("can't find bot token.", os.path.abspath(token_txt_path))
+    logger.critical("can't find bot token. "+os.path.abspath(token_txt_path))
